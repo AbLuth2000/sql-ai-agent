@@ -24,25 +24,12 @@ This repository contains an **AI-powered SQL agent** that can generate and execu
 #### **User Input:**
 
 ```
-Show me all users with orders
+How many orders are there over a value of 300?
 ```
 
 #### **AI Generated SQL:**
 
-```sql
-SELECT DISTINCT users.id, users.name, users.email
-FROM users
-JOIN orders ON users.id = orders.user_id;
-```
-
 #### **Result:**
-
-```json
-[
-  [1, "Alice Johnson", "alice@example.com"],
-  [2, "Bob Smith", "bob@example.com"]
-]
-```
 
 ## Installation
 
