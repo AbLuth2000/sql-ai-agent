@@ -29,7 +29,11 @@ How many orders are there over a value of 300?
 
 #### **AI Generated SQL:**
 
+![image](https://github.com/user-attachments/assets/be4eb033-6619-4332-9fa7-2ca8476c7d1e)
+
 #### **Result:**
+
+![image](https://github.com/user-attachments/assets/fe0f5c3e-975f-406d-8d1d-b3d9ac5f02ad)
 
 ## Installation
 
