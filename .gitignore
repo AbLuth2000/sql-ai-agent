@@ -1,2 +1,2 @@
 .env
-ai_agent/local_database.db
+src/database/*.db
