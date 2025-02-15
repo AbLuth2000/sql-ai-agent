@@ -5,17 +5,17 @@ from src.tools.sql_generator_agent import generate_sql_query
 from src.tools.sql_executor_agent import execute_sql_query
 from dotenv import load_dotenv
 import os
+from typing import Optional
 
 # Load environment variables
 load_dotenv()
 
 # Initialize OpenAI LLM with GPT-4o-mini
 llm = ChatOpenAI(
-    model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),  # Default to gpt-4o-mini if env variable is missing
-    temperature=0.2,
+    model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+    temperature=0.0,
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
-
 
 # Define tools for LangChain agent
 generate_sql_tool = Tool(
@@ -41,16 +41,24 @@ sql_agent = initialize_agent(
 )
 
 
-def process_user_request(user_request):
-    """Runs the AI agent to process a database-related request."""
+def process_user_request(user_request: str) -> Optional[str]:
+    """Processes a natural language user request by generating an SQL query and executing it.
+
+    Args:
+        user_request (str): The user's database-related request in natural language.
+
+    Returns:
+        Optional[str]: The query execution result or an error message if an issue occurs.
+    """
     try:
-        response = sql_agent.run(user_request)
+        response: str = sql_agent.run(user_request)
         return response
     except Exception as e:
-        return f"❌ Error processing request: {e}"
+        return f"Error processing request: {e}"
 
 
 if __name__ == "__main__":
     user_request = input("Enter your database request: ")
     result = process_user_request(user_request)
-    print(f"\n🎯 Result:\n{result}")
+    
+    print(f"\nResult:\n{result if result else 'No response received.'}")

@@ -1,15 +1,27 @@
 import sqlite3
 from src.database.config import DB_PATH
+from typing import Union, List, Tuple
 
-def execute_sql_query(sql_query):
-    """Executes an SQL query on the SQLite database and returns the results."""
+
+def execute_sql_query(sql_query: str) -> Union[str, List[Tuple]]:
+    """Executes an SQL query on the SQLite database and returns the results.
+    
+    Args:
+        sql_query (str): The SQL query to execute.
+    
+    Returns:
+        Union[str, List[Tuple]]: 
+            - If it's a SELECT query, returns a list of tuples with the results.
+            - If it's an INSERT/UPDATE/DELETE query, returns a success message.
+            - If there's an error, returns an error message as a string.
+    """
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     try:
         cursor.execute(sql_query)
         if sql_query.strip().lower().startswith("select"):
-            results = cursor.fetchall()
+            results: List[Tuple] = cursor.fetchall()  # Ensure correct typing
         else:
             conn.commit()
             results = "Query executed successfully."
@@ -18,6 +30,7 @@ def execute_sql_query(sql_query):
 
     conn.close()
     return results
+
 
 if __name__ == "__main__":
     sql_query = input("Enter the SQL query to execute: ")
