@@ -36,7 +36,7 @@ tools = [generate_sql_tool, execute_sql_tool]
 sql_agent = initialize_agent(
     tools=tools,
     llm=llm,
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    agent=AgentType.OPENAI_FUNCTIONS,
     verbose=True
 )
 
@@ -52,6 +52,13 @@ def process_user_request(user_request: str) -> Optional[str]:
     """
     try:
         response: str = sql_agent.run(user_request)
+
+        # If the response is an execution error, stop retrying
+        if "SQL Execution Error" in response or "Error" in response:
+            return response
+
         return response
+
     except Exception as e:
         return f"Error processing request: {e}"
+

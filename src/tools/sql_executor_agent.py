@@ -5,34 +5,37 @@ from typing import Union, List, Tuple
 
 def execute_sql_query(sql_query: str) -> Union[str, List[Tuple]]:
     """Executes an SQL query on the SQLite database and returns the results.
-    
+
     Args:
         sql_query (str): The SQL query to execute.
-    
+
     Returns:
-        Union[str, List[Tuple]]: 
-            - If it's a SELECT query, returns a list of tuples with the results.
-            - If it's an INSERT/UPDATE/DELETE query, returns a success message.
-            - If there's an error, returns an error message as a string.
+        Union[str, List[Tuple]]: The query results or an error message.
     """
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    conn: sqlite3.Connection = sqlite3.connect(DB_PATH)
+    cursor: sqlite3.Cursor = conn.cursor()
 
     try:
+        # Ensure only a single statement is executed
+        statements = sql_query.strip().split(";")
+        if len(statements) > 1 and statements[-1] == "":
+            statements.pop()  # Remove empty last element if present
+
+        if len(statements) > 1:
+            return "Error: Only one SQL statement can be executed at a time."
+
         cursor.execute(sql_query)
+        
         if sql_query.strip().lower().startswith("select"):
             results: List[Tuple] = cursor.fetchall()
         else:
             conn.commit()
             results = "Query executed successfully."
+        
+        return results
+
     except sqlite3.Error as e:
-        results = f"Error: {e}"
+        return f"SQL Execution Error: {e}"
 
-    conn.close()
-    return results
-
-
-if __name__ == "__main__":
-    sql_query = input("Enter the SQL query to execute: ")
-    result = execute_sql_query(sql_query)
-    print(f"Execution Result:\n{result}")
+    finally:
+        conn.close()
