@@ -87,10 +87,6 @@ poetry run python src/main.py
 - **Enable Query Logging:**  
   Queries are logged in `query_logs.txt`. Modify `sql_executor_agent.py` to enable or disable logging.
 
-## License
-
-This project is licensed under the **MIT License**.
-
 ## Contact
 
 For questions or contributions, reach out via:  
