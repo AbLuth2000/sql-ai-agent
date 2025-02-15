@@ -1,16 +1,17 @@
-[project]
+[tool.poetry]
 name = "sql-ai-agent"
 version = "0.1.0"
 description = "SQL DB AI Agent"
-authors = [
-    {name = "Abhyuday Luthra",email = "abhy3230@gmail.com"}
-]
+authors = ["Abhyuday Luthra"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "faker (>=36.1.1,<37.0.0)"
-]
+packages = [{ include = "src" }]
 
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+faker = "^36.1.1"
+langchain = "^0.3.18"
+openai = "^1.0.0"
+python-dotenv = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
