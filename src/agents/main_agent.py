@@ -12,8 +12,8 @@ load_dotenv()
 
 # Initialize OpenAI LLM with GPT-4o-mini
 llm = ChatOpenAI(
-    model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
-    temperature=0.0,
+    model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),  
+    temperature=0.2,
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
@@ -55,10 +55,3 @@ def process_user_request(user_request: str) -> Optional[str]:
         return response
     except Exception as e:
         return f"Error processing request: {e}"
-
-
-if __name__ == "__main__":
-    user_request = input("Enter your database request: ")
-    result = process_user_request(user_request)
-    
-    print(f"\nResult:\n{result if result else 'No response received.'}")
