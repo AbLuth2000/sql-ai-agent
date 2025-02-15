@@ -1,11 +1,11 @@
 import sqlite3
-from src.database.config import DB_PATH 
+from src.database.config import DB_PATH
 
 
-def initialize_database():
+def initialize_database() -> None:
     """Creates a complex SQLite database with default values, NOT NULL constraints, and foreign key relationships."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    conn: sqlite3.Connection = sqlite3.connect(DB_PATH)
+    cursor: sqlite3.Cursor = conn.cursor()
 
     # Enable foreign key constraints
     cursor.execute("PRAGMA foreign_keys = ON;")
@@ -47,9 +47,9 @@ def initialize_database():
     # Commit changes and close connection
     conn.commit()
     conn.close()
+
     print(f"Database initialized successfully at {DB_PATH} with default values and constraints!")
 
 
-# Run the function
 if __name__ == "__main__":
     initialize_database()
