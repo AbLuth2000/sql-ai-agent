@@ -1,6 +1,5 @@
 import sqlite3
-
-DB_PATH = "local_database.db"  # Define the SQLite database file
+from src.database.config import DB_PATH 
 
 
 def initialize_database():
@@ -48,7 +47,7 @@ def initialize_database():
     # Commit changes and close connection
     conn.commit()
     conn.close()
-    print("Database initialized successfully with default values and constraints!")
+    print(f"Database initialized successfully at {DB_PATH} with default values and constraints!")
 
 
 # Run the function
