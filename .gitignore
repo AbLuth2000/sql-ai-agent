@@ -1,2 +1,24 @@
+# Ignore environment variables
 .env
+
+# Ignore SQLite database files
 src/database/*.db
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore Poetry virtual environment (if inside project)
+.venv/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore Python bytecode cache
+src/**/__pycache__/
