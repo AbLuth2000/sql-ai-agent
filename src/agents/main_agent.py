@@ -5,7 +5,7 @@ from src.tools.sql_generator_agent import generate_sql_query
 from src.tools.sql_executor_agent import execute_sql_query
 from dotenv import load_dotenv
 import os
-from typing import Optional
+from typing import Dict, Union
 
 # Load environment variables
 load_dotenv()
@@ -36,29 +36,30 @@ tools = [generate_sql_tool, execute_sql_tool]
 sql_agent = initialize_agent(
     tools=tools,
     llm=llm,
-    agent=AgentType.OPENAI_FUNCTIONS,
+    agent=AgentType.OPENAI_FUNCTIONS,  # Ensures correct tool chaining
     verbose=True
 )
 
 
-def process_user_request(user_request: str) -> Optional[str]:
+def process_user_request(user_request: str) -> Dict[str, Union[str, list]]:
     """Processes a natural language user request by generating an SQL query and executing it.
+    
+    Stops execution immediately if an error occurs.
 
     Args:
         user_request (str): The user's database-related request in natural language.
 
     Returns:
-        Optional[str]: The query execution result or an error message if an issue occurs.
+        Dict[str, Union[str, list]]: A structured response with status and data or an error message.
     """
     try:
-        response: str = sql_agent.run(user_request)
+        response = sql_agent.run(user_request)
 
-        # If the response is an execution error, stop retrying
+        # Return structured JSON-like response
         if "SQL Execution Error" in response or "Error" in response:
-            return response
+            return {"status": "error", "message": response}
 
-        return response
+        return {"status": "success", "data": response}
 
     except Exception as e:
-        return f"Error processing request: {e}"
-
+        return {"status": "error", "message": f"Error processing request: {e}"}
