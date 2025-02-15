@@ -21,7 +21,7 @@ def execute_sql_query(sql_query: str) -> Union[str, List[Tuple]]:
     try:
         cursor.execute(sql_query)
         if sql_query.strip().lower().startswith("select"):
-            results: List[Tuple] = cursor.fetchall()  # Ensure correct typing
+            results: List[Tuple] = cursor.fetchall()
         else:
             conn.commit()
             results = "Query executed successfully."
