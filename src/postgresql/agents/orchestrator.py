@@ -14,7 +14,7 @@ class OrchestratorResponse(BaseModel):
     """
 
     decision: str = Field(
-        description="The next step for the workflow. Must be one of: 'query_agent', 'postgres_writer', 'query_checker', 'executor', 'follow_up', or 'complete'."
+        description="The next step for the workflow. Must be one of: 'analyst', 'postgresql_writer', 'postgresql_checker', 'executor', 'follow_up', or 'complete'."
     )
     follow_up_question: Optional[str] = Field(
         default=None,
@@ -29,7 +29,7 @@ class OrchestratorAgent:
     - Ensures structured responses using Pydantic models.
     """
 
-    def __init__(self, model_name: str = OPENAI_MODEL, temperature: float = 0):
+    def __init__(self, model_name: str = OPENAI_MODEL, temperature: float = 0.2):
         """Initialize the orchestrator with an LLM model."""
         self.llm = ChatOpenAI(model=model_name, temperature=temperature)
 
@@ -51,9 +51,9 @@ class OrchestratorAgent:
             
             You must return a structured response with a decision from the following options:
             
-            - "query_agent": If the user wants insights or explanations about the database.
-            - "postgres_writer": If the user wants a PostgreSQL query to be written.
-            - "query_checker": If a query needs to be validated before execution.
+            - "analyst": If the user wants insights or explanations about the database.
+            - "postgresql_writer": If the user wants a PostgreSQL query to be written.
+            - "postgresql_checker": If a query needs to be validated before execution.
             - "executor": If the user provides a query and wants it executed.
             - "follow_up": If the user's request is unclear and you need more details. In this case, include a relevant follow-up question.
             - "complete": If the user's request has been fully resolved and no further action is needed.
