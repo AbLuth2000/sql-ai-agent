@@ -4,15 +4,15 @@ import sys
 
 
 def main():
-    print("PostgreSQL AI Assistant is now running.")
+    print("AI Assistant is now running.")
     print("Type 'exit' to quit.")
     
     while True:
         # Get user input
-        user_input = input("\nYou: ")
+        user_input = input("User Input: ")
         
         if user_input.lower() == "exit":
-            print("Exiting the AI Assistant. Goodbye.")
+            print("Exiting.")
             sys.exit(0)
 
         # Initialize state
