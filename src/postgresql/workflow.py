@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph
+from langgraph.graph import StateGraph, END
 from typing import Dict, Any
 from agents.orchestrator import OrchestratorAgent
 from agents.analyst import AnalystAgent
